@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12">
+      <h1>Pessoas</h1>
+    </div>
+
+    <div class="col-12 p-fluid">
+      <label>Nome</label>
+      <input type="text" pInputText />
+    </div>
+
+    <div class="col-12 mb-1 flex justify-content-end">
+      <button
+        icon="pi pi-search"
+        pButton
+        type="submit"
+        label="Pesquisar"
+      ></button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col-12">
+      <app-pessoas-grid [pessoas]="pessoas"></app-pessoas-grid>
+    </div>
+
+    <div class="col-12 flex justify-content-end">
+      <a icon="pi pi-plus" pButton label="Nova Pessoa"></a>
+    </div>
+  </div>
+</div>

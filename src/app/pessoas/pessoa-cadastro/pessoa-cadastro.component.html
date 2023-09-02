@@ -1,0 +1,164 @@
+<div class="container">
+  <form #pessoaForm="ngForm">
+    <div class="grid">
+      <div class="col-12">
+        <h1>Nova Pessoa</h1>
+      </div>
+
+      <div class="col-12 p-fluid">
+        <label>Nome</label>
+        <input
+          pInputText
+          type="text"
+          name="nome"
+          required
+          minlength="5"
+          ngModel
+          #nome="ngModel"
+        />
+        <p-message
+          styleClass="mt-2"
+          *ngIf="nome.hasError('required') && nome.dirty"
+          severity="error"
+          text="Informe o nome"
+        ></p-message>
+        <p-message
+          styleClass="mt-2"
+          *ngIf="nome.hasError('minlength') && nome.dirty"
+          severity="error"
+          text="Mínimo de 5 caracteres"
+        ></p-message>
+      </div>
+
+      <div class="col-12 md:col-9 p-fluid">
+        <label>Logradouro</label>
+        <input
+          pInputText
+          type="text"
+          name="logradouro"
+          required
+          ngModel
+          #logradouro="ngModel"
+        />
+        <p-message
+          styleClass="mt-2"
+          *ngIf="logradouro.hasError('required') && logradouro.dirty"
+          severity="error"
+          text="Informe o logradouro"
+        ></p-message>
+      </div>
+
+      <div class="col-12 md:col-3 p-fluid">
+        <label>Número</label>
+        <input
+          pInputText
+          type="text"
+          name="numero"
+          required
+          ngModel
+          #numero="ngModel"
+        />
+        <p-message
+          styleClass="mt-2"
+          *ngIf="numero.hasError('required') && numero.dirty"
+          severity="error"
+          text="Informe o numero"
+        ></p-message>
+      </div>
+
+      <div class="col-12 md:col-4 p-fluid">
+        <label>Complemento</label>
+        <input pInputText type="text" name="complemento" ngModel />
+      </div>
+
+      <div class="col-12 md:col-4 p-fluid">
+        <label>Bairro</label>
+        <input
+          pInputText
+          type="text"
+          name="bairro"
+          required
+          ngModel
+          #bairro="ngModel"
+        />
+        <p-message
+          styleClass="mt-2"
+          *ngIf="bairro.hasError('required') && bairro.dirty"
+          severity="error"
+          text="Informe o bairro"
+        ></p-message>
+      </div>
+
+      <div class="col-12 md:col-4 p-fluid">
+        <label>CEP</label>
+        <p-inputMask
+          mask="99.999-999"
+          placeholder="00.000-000"
+          name="cep"
+          ngModel
+          #cep="ngModel"
+          [required]="true"
+        ></p-inputMask>
+        <p-message
+          styleClass="mt-2"
+          *ngIf="cep.hasError('required') && cep.dirty"
+          severity="error"
+          text="Informe o cep"
+        ></p-message>
+      </div>
+
+      <div class="col-12 md:col-6 p-fluid">
+        <label>Cidade</label>
+        <input
+          pInputText
+          type="text"
+          name="cidade"
+          required
+          ngModel
+          #cidade="ngModel"
+        />
+        <p-message
+          styleClass="mt-2"
+          *ngIf="cidade.hasError('required') && cidade.dirty"
+          severity="error"
+          text="Informe a cidade"
+        ></p-message>
+      </div>
+
+      <div class="col-12 md:col-6 p-fluid">
+        <label>Estado</label>
+        <input
+          pInputText
+          type="text"
+          name="estado"
+          required
+          ngModel
+          #estado="ngModel"
+        />
+        <p-message
+          styleClass="mt-2"
+          *ngIf="estado.hasError('required') && estado.dirty"
+          severity="error"
+          text="Informe o estado"
+        ></p-message>
+      </div>
+
+      <div class="col-12 flex align-items-center gap-2">
+        <button
+          icon="pi pi-check"
+          pButton
+          type="submit"
+          label="Salvar"
+        ></button>
+        <button
+          icon="pi pi-plus"
+          pButton
+          type="button"
+          label="Novo"
+          class="p-button-info"
+        ></button>
+        <a href="#">Voltar para a pesquisa</a>
+      </div>
+    </div>
+  </form>
+</div>
