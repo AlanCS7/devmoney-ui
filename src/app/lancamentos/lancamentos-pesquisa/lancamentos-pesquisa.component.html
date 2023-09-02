@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="grid">
+    <div class="col-12">
+      <h1>Lançamentos</h1>
+    </div>
+
+    <div class="col-12 p-fluid">
+      <label>Descrição</label>
+      <input type="text" pInputText />
+    </div>
+
+    <div class="col-12">
+      <div class="flex justify-content-between flex-wrap">
+        <div class="mb-1">
+          <label class="block">Vencimento</label>
+          <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+
+          <label> até </label>
+          <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+        </div>
+
+        <div class="align-self-end mb-1">
+          <button
+            icon="pi pi-search"
+            pButton
+            type="submit"
+            label="Pesquisar"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col-12">
+      <app-lancamentos-grid [lancamentos]="lancamentos"></app-lancamentos-grid>
+    </div>
+
+    <div class="col-12 flex justify-content-end">
+      <a icon="pi pi-plus" pButton label="Novo Lançamento"></a>
+    </div>
+  </div>
+</div>
