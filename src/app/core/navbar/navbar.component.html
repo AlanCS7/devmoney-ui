@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="container flex align-content-center">
+    <i class="pi pi-bars navbar-toggle" style="font-size: 1.5rem" (click)="exibindoMenu = !exibindoMenu"></i>
+  </div>
+
+  <ul class="navbar-menu" [hidden]="!exibindoMenu">
+    <li class="navbar-usuario">Alan Carlos</li>
+    <li class="navbar-menuitem"><a href="#">Lançamentos</a></li>
+    <li class="navbar-menuitem"><a href="#">Pessoas</a></li>
+    <li class="navbar-menuitem"><a href="#">Logout</a></li>
+  </ul>
+</nav>
