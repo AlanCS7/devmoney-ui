@@ -1,27 +1,93 @@
 <div class="container">
+  <form (ngSubmit)="pesquisar()">
+    <div class="grid">
+      <div class="col-12">
+        <h1>Pessoas</h1>
+      </div>
+
+      <div class="col-12 p-fluid">
+        <label>Nome</label>
+        <input type="text" pInputText name="nome" [(ngModel)]="filtro.nome" />
+      </div>
+
+      <div class="col-12 mb-1 flex justify-content-end">
+        <button
+          icon="pi pi-search"
+          pButton
+          type="submit"
+          label="Pesquisar"
+        ></button>
+      </div>
+    </div>
+  </form>
+
   <div class="grid">
     <div class="col-12">
-      <h1>Pessoas</h1>
-    </div>
-
-    <div class="col-12 p-fluid">
-      <label>Nome</label>
-      <input type="text" pInputText />
-    </div>
-
-    <div class="col-12 mb-1 flex justify-content-end">
-      <button
-        icon="pi pi-search"
-        pButton
-        type="submit"
-        label="Pesquisar"
-      ></button>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="col-12">
-      <app-pessoas-grid [pessoas]="pessoas"></app-pessoas-grid>
+      <p-table
+        [value]="pessoas"
+        responsiveLayout="stack"
+        [breakpoint]="'576px'"
+        styleClass="p-datatable-striped p-datatable-gridlines"
+        [tableStyle]="{ 'min-width': '15rem' }"
+        [paginator]="true"
+        [rows]="filtro.itemsPerPage"
+        [lazy]="true"
+        [totalRecords]="totalRegistros"
+        (onLazyLoad)="onPageChange($event)"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="w-16rem">Nome</th>
+            <th class="w-16rem">Cidade</th>
+            <th class="w-16rem">Estado</th>
+            <th class="w-16rem">Status</th>
+            <th class="w-1rem"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pessoa>
+          <tr>
+            <td>
+              <span class="p-column-title">Nome</span>
+              {{ pessoa.nome }}
+            </td>
+            <td>
+              <span class="p-column-title">Cidade</span>
+              {{ pessoa.endereco.cidade }}
+            </td>
+            <td>
+              <span class="p-column-title">Estado</span>
+              {{ pessoa.endereco.estado }}
+            </td>
+            <td>
+              <span class="p-column-title">Status</span>
+              <a
+                href="#"
+                [pTooltip]="pessoa.status === true ? 'Desativar' : 'Ativar'"
+                tooltipPosition="top"
+                class="status"
+              >
+                {{ pessoa.status === true ? "Ativo" : "Inativo" }}
+              </a>
+            </td>
+            <td class="flex justify-content-center gap-1">
+              <a
+                icon="pi pi-pencil"
+                pButton
+                class="p-button-secondary"
+                pTooltip="Editar"
+                tooltipPosition="top"
+              ></a>
+              <button
+                icon="pi pi-trash"
+                pButton
+                class="p-button-danger"
+                pTooltip="Excluir"
+                tooltipPosition="top"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
 
     <div class="col-12 flex justify-content-end">
