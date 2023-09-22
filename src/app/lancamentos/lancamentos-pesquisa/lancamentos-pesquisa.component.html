@@ -1,39 +1,131 @@
 <div class="container">
   <div class="grid">
-    <div class="col-12">
-      <h1>Lançamentos</h1>
-    </div>
+    <form (ngSubmit)="pesquisar()">
+      <div class="col-12">
+        <h1>Lançamentos</h1>
+      </div>
 
-    <div class="col-12 p-fluid">
-      <label>Descrição</label>
-      <input type="text" pInputText />
-    </div>
+      <div class="col-12 p-fluid">
+        <label>Descrição</label>
+        <input
+          type="text"
+          pInputText
+          name="descricao"
+          [(ngModel)]="filtro.descricao"
+        />
+      </div>
 
-    <div class="col-12">
-      <div class="flex justify-content-between flex-wrap">
-        <div class="mb-1">
-          <label class="block">Vencimento</label>
-          <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+      <div class="col-12">
+        <div class="flex justify-content-between flex-wrap gap-1">
+          <div class="mb-1">
+            <label class="block">Vencimento</label>
+            <p-calendar
+              dateFormat="dd/mm/yy"
+              name="vencimentoInicio"
+              [(ngModel)]="filtro.dataVencimentoInicio"
+            ></p-calendar>
 
-          <label> até </label>
-          <p-calendar dateFormat="dd/mm/yy"></p-calendar>
-        </div>
+            <label class="mx-1">até</label>
+            <p-calendar
+              dateFormat="dd/mm/yy"
+              name="vencimentoFim"
+              [(ngModel)]="filtro.dataVencimentoFim"
+            ></p-calendar>
+          </div>
 
-        <div class="align-self-end mb-1">
-          <button
-            icon="pi pi-search"
-            pButton
-            type="submit"
-            label="Pesquisar"
-          ></button>
+          <div class="align-self-end mb-1">
+            <button
+              icon="pi pi-search"
+              pButton
+              type="submit"
+              label="Pesquisar"
+            ></button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 
   <div class="grid">
     <div class="col-12">
-      <app-lancamentos-grid [lancamentos]="lancamentos"></app-lancamentos-grid>
+      <p-table
+        [value]="lancamentos"
+        responsiveLayout="stack"
+        [breakpoint]="'576px'"
+        styleClass="p-datatable-striped p-datatable-gridlines"
+        [tableStyle]="{ 'min-width': '15rem' }"
+        [paginator]="true"
+        [rows]="filtro.itemsPerPage"
+        [lazy]="true"
+        [totalRecords]="totalRegistros"
+        (onLazyLoad)="onPageChange($event)"
+        #dt
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="w-16rem">Pessoa</th>
+            <th class="w-16rem">Descrição</th>
+            <th class="w-8rem">Vencimento</th>
+            <th class="w-8rem">Pagamento</th>
+            <th class="w-8rem">Valor</th>
+            <th class="w-1rem"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-lancamento>
+          <tr>
+            <td>
+              <span class="p-column-title">Pessoa</span>
+              {{ lancamento.pessoa }}
+            </td>
+            <td>
+              <span class="p-column-title">Descrição</span>
+              {{ lancamento.descricao }}
+            </td>
+            <td class="text-center">
+              <span class="p-column-title">Vencimento</span>
+              {{ lancamento.dataVencimento | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="text-center">
+              <span class="p-column-title">Pagamento</span>
+              {{ lancamento.dataPagamento | date : "dd/MM/yyyy" }}
+            </td>
+            <td class="text-right">
+              <span class="p-column-title">Valor</span>
+              <span
+                [ngStyle]="{
+                  color: lancamento.tipo === 'DESPESA' ? '#f00' : '#00f'
+                }"
+              >
+                {{ lancamento.valor | currency : "BRL" }}
+              </span>
+            </td>
+            <td class="flex justify-content-center gap-1">
+              <a
+                icon="pi pi-pencil"
+                pButton
+                class="p-button-secondary"
+                pTooltip="Editar"
+                tooltipPosition="top"
+              ></a>
+              <button
+                icon="pi pi-trash"
+                pButton
+                class="p-button-danger"
+                pTooltip="Excluir"
+                tooltipPosition="top"
+                (click)="confirm(lancamento)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="text-center">
+              Nenhum lançamento encontrado.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
 
     <div class="col-12 flex justify-content-end">
