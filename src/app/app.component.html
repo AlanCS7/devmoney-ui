@@ -1,9 +1,33 @@
 <app-navbar></app-navbar>
 
-<app-lancamento-cadastro></app-lancamento-cadastro>
+<!-- <app-lancamento-cadastro></app-lancamento-cadastro> -->
 
-<!-- <app-lancamentos-pesquisa></app-lancamentos-pesquisa>
+<app-lancamentos-pesquisa></app-lancamentos-pesquisa>
 
-<app-pessoa-cadastro></app-pessoa-cadastro>
+<!-- <app-pessoa-cadastro></app-pessoa-cadastro> -->
 
-<app-pessoas-pesquisa></app-pessoas-pesquisa> -->
+<!-- <app-pessoas-pesquisa></app-pessoas-pesquisa> -->
+<p-toast
+  [showTransformOptions]="'translateY(100%)'"
+  [showTransformOptions]="'translateX(100%)'"
+></p-toast>
+
+<p-confirmDialog #cd>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      label="Não"
+      class="p-button-outlined"
+      (click)="cd.reject()"
+    ></button>
+    <button
+      type="button"
+      pButton
+      icon="pi pi-check"
+      label="Sim"
+      (click)="cd.accept()"
+    ></button>
+  </ng-template>
+</p-confirmDialog>
