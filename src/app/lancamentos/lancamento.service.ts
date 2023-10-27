@@ -1,7 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
+
+import { Lancamento } from '../core/model';
 
 export class LancamentoFiltro {
   descricao!: string;
@@ -12,7 +14,7 @@ export class LancamentoFiltro {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class LancamentoService {
   lancamentosUrl = 'http://localhost:8080/lancamentos';
@@ -21,12 +23,6 @@ export class LancamentoService {
 
   pesquisar(filtro: LancamentoFiltro): Observable<any> {
     let params = new HttpParams();
-    let headers = new HttpHeaders();
-    headers = headers.append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
-
     params = params.set('page', filtro.page);
     params = params.set('size', filtro.itemsPerPage);
 
@@ -48,16 +44,22 @@ export class LancamentoService {
       );
     }
 
-    return this.http.get(`${this.lancamentosUrl}?resumo`, { headers, params });
+    return this.http.get(`${this.lancamentosUrl}?resumo`, { params });
   }
 
-  excluir(id: number): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
+  buscarPorId(id: number): Observable<Lancamento> {
+    return this.http.get<Lancamento>(`${this.lancamentosUrl}/${id}`);
+  }
 
-    return this.http.delete(`${this.lancamentosUrl}/${id}`, { headers });
+  adicionar(lancamento: Lancamento): Observable<Lancamento> {
+    return this.http.post<Lancamento>(this.lancamentosUrl, lancamento);
+  }
+
+  atualizar(lancamento: Lancamento): Observable<Lancamento> {
+    return this.http.put<Lancamento>(`${this.lancamentosUrl}/${lancamento.id}`, lancamento);
+  }
+
+  excluir(id: number): Observable<Lancamento> {
+    return this.http.delete<Lancamento>(`${this.lancamentosUrl}/${id}`);
   }
 }

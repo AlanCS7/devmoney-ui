@@ -1,20 +1,25 @@
 <div class="container">
-  <form #lancamentoForm="ngForm">
+  <form #lancamentoForm="ngForm" (ngSubmit)="salvar(lancamentoForm)">
     <div class="grid">
       <div class="col-12">
-        <h1>Novo Lançamento</h1>
+        <h1>{{ editando ? "Edição de" : "Novo" }} Lançamento</h1>
       </div>
 
       <div class="col-12">
-        <p-selectButton [options]="tipos" #tipo></p-selectButton>
+        <p-selectButton
+          [options]="tipos"
+          name="tipo"
+          [(ngModel)]="lancamento.tipo"
+          #tipo
+        ></p-selectButton>
       </div>
 
       <div class="col-6 md:col-3 p-fluid">
         <label>Vencimento</label>
         <p-calendar
           dateFormat="dd/mm/yy"
-          name="vencimento"
-          ngModel
+          name="dataVencimento"
+          [(ngModel)]="lancamento.dataVencimento"
           #vencimento="ngModel"
           [required]="true"
         ></p-calendar>
@@ -30,7 +35,11 @@
         <label>
           {{ tipo.value === "RECEITA" ? "Recebimento" : "Pagamento" }}
         </label>
-        <p-calendar dateFormat="dd/mm/yy"></p-calendar>
+        <p-calendar
+          dateFormat="dd/mm/yy"
+          name="dataPagamento"
+          [(ngModel)]="lancamento.dataPagamento"
+        ></p-calendar>
       </div>
 
       <div class="col-12 md:col-9 p-fluid">
@@ -41,7 +50,7 @@
           name="descricao"
           required
           minlength="5"
-          ngModel
+          [(ngModel)]="lancamento.descricao"
           #descricao="ngModel"
         />
         <p-message
@@ -64,9 +73,9 @@
           mode="currency"
           currency="BRL"
           locale="pt-BR"
-          placeholder="0,00"
+          placeholder="R$ 0,00"
           name="valor"
-          ngModel
+          [(ngModel)]="lancamento.valor"
           #valor="ngModel"
           [required]="true"
         >
@@ -85,7 +94,7 @@
           [options]="categorias"
           placeholder="Selecione"
           name="categoria"
-          ngModel
+          [(ngModel)]="lancamento.categoria.id"
           [required]="true"
         ></p-dropdown>
       </div>
@@ -97,14 +106,19 @@
           placeholder="Selecione"
           [filter]="true"
           name="pessoa"
-          ngModel
+          [(ngModel)]="lancamento.pessoa.id"
           [required]="true"
         ></p-dropdown>
       </div>
 
       <div class="col-12 p-fluid">
         <label>Observação</label>
-        <textarea pInputTextarea rows="3"></textarea>
+        <textarea
+          pInputTextarea
+          rows="3"
+          name="observacao"
+          [(ngModel)]="lancamento.observacao"
+        ></textarea>
       </div>
 
       <div class="col-12 flex align-items-center gap-2">
@@ -121,8 +135,9 @@
           type="button"
           label="Novo"
           class="p-button-info"
+          (click)="novo(lancamentoForm)"
         ></button>
-        <a href="#">Voltar para a pesquisa</a>
+        <a routerLink="/lancamentos">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

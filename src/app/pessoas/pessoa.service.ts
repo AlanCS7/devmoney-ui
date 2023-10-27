@@ -1,6 +1,8 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+import { Pessoa } from '../core/model';
 
 export class PessoaFiltro {
   nome!: string;
@@ -9,7 +11,7 @@ export class PessoaFiltro {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PessoaService {
   pessoasUrl = 'http://localhost:8080/pessoas';
@@ -18,11 +20,6 @@ export class PessoaService {
 
   pesquisar(filtro: PessoaFiltro): Observable<any> {
     let params = new HttpParams();
-    let headers = new HttpHeaders();
-    headers = headers.append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
 
     params = params.set('page', filtro.page);
     params = params.set('size', filtro.itemsPerPage);
@@ -31,16 +28,30 @@ export class PessoaService {
       params = params.set('nome', filtro.nome);
     }
 
-    return this.http.get(this.pessoasUrl, { headers, params });
+    return this.http.get(this.pessoasUrl, { params });
+  }
+
+  buscarPorId(id: number): Observable<Pessoa> {
+    return this.http.get<Pessoa>(`${this.pessoasUrl}/${id}`);
   }
 
   listarTodos(): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.append(
-      'Authorization',
-      'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg=='
-    );
+    return this.http.get(`${this.pessoasUrl}/all`);
+  }
 
-    return this.http.get(`${this.pessoasUrl}/all`, { headers });
+  adicionar(pessoa: Pessoa): Observable<Pessoa> {
+    return this.http.post<Pessoa>(this.pessoasUrl, pessoa);
+  }
+
+  atualizar(pessoa: Pessoa): Observable<Pessoa> {
+    return this.http.put<Pessoa>(`${this.pessoasUrl}/${pessoa.id}`, pessoa);
+  }
+
+  excluir(id: number): Observable<any> {
+    return this.http.delete(`${this.pessoasUrl}/${id}`);
+  }
+
+  updateStatus(id: number, status: boolean): Observable<any> {
+    return this.http.put(`${this.pessoasUrl}/${id}/ativo`, status);
   }
 }

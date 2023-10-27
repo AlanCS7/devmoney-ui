@@ -1,8 +1,8 @@
 <div class="container">
-  <form #pessoaForm="ngForm">
+  <form #pessoaForm="ngForm" (ngSubmit)="salvar(pessoaForm)">
     <div class="grid">
       <div class="col-12">
-        <h1>Nova Pessoa</h1>
+        <h1>{{ editando ? "Edição de" : "Nova" }} Pessoa</h1>
       </div>
 
       <div class="col-12 p-fluid">
@@ -13,7 +13,7 @@
           name="nome"
           required
           minlength="5"
-          ngModel
+          [(ngModel)]="pessoa.nome"
           #nome="ngModel"
         />
         <p-message
@@ -37,7 +37,7 @@
           type="text"
           name="logradouro"
           required
-          ngModel
+          [(ngModel)]="pessoa.endereco.logradouro"
           #logradouro="ngModel"
         />
         <p-message
@@ -55,7 +55,7 @@
           type="text"
           name="numero"
           required
-          ngModel
+          [(ngModel)]="pessoa.endereco.numero"
           #numero="ngModel"
         />
         <p-message
@@ -68,7 +68,12 @@
 
       <div class="col-12 md:col-4 p-fluid">
         <label>Complemento</label>
-        <input pInputText type="text" name="complemento" ngModel />
+        <input
+          pInputText
+          type="text"
+          name="complemento"
+          [(ngModel)]="pessoa.endereco.complemento"
+        />
       </div>
 
       <div class="col-12 md:col-4 p-fluid">
@@ -78,7 +83,7 @@
           type="text"
           name="bairro"
           required
-          ngModel
+          [(ngModel)]="pessoa.endereco.bairro"
           #bairro="ngModel"
         />
         <p-message
@@ -95,7 +100,7 @@
           mask="99.999-999"
           placeholder="00.000-000"
           name="cep"
-          ngModel
+          [(ngModel)]="pessoa.endereco.cep"
           #cep="ngModel"
           [required]="true"
         ></p-inputMask>
@@ -114,7 +119,7 @@
           type="text"
           name="cidade"
           required
-          ngModel
+          [(ngModel)]="pessoa.endereco.cidade"
           #cidade="ngModel"
         />
         <p-message
@@ -132,7 +137,7 @@
           type="text"
           name="estado"
           required
-          ngModel
+          [(ngModel)]="pessoa.endereco.estado"
           #estado="ngModel"
         />
         <p-message
@@ -156,8 +161,9 @@
           type="button"
           label="Novo"
           class="p-button-info"
+          (click)="novo(pessoaForm)"
         ></button>
-        <a href="#">Voltar para a pesquisa</a>
+        <a routerLink="/pessoas">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

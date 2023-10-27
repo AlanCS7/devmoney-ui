@@ -14,9 +14,6 @@ import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos
     CommonModule,
     SharedModule
   ],
-  exports: [
-    LancamentoCadastroComponent,
-    LancamentosPesquisaComponent
-  ]
+  exports: []
 })
 export class LancamentosModule { }
